@@ -1,7 +1,7 @@
 ARG ATLAS_FOLDER=apache-atlas-sources-1.1.0
 ARG ATLAS_BINARY=apache-atlas-1.1.0
 ARG ATLAS_TAR_NAME=apache-atlas-1.1.0-sources.tar.gz
-ARG ATLAS_TAR_URL=http://mirrors.fibergrid.in/apache/atlas/1.1.0/apache-atlas-1.1.0-sources.tar.gz
+ARG ATLAS_TAR_URL=http://mirrors.estointernet.in/apache/atlas/1.1.0/apache-atlas-1.1.0-sources.tar.gz
 
 
 FROM maven:3.6.0-jdk-8
