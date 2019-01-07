@@ -38,4 +38,4 @@ WORKDIR /apps/${ATLAS_BINARY}
 
 EXPOSE 21000
 
-CMD ./bin/atlas_start.py && tail -f logs/*
+CMD "/bin/bash", "-c", "/apps/apache-atlas-1.1.0/bin/atlas_start.py; tail -fF /apps/apache-atlas-1.1.0/logs/application.log"
