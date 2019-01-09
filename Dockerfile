@@ -29,6 +29,8 @@ FROM openjdk:8u181-jdk-stretch
 ARG ATLAS_FOLDER
 ARG ATLAS_BINARY
 
+ENV ATLAS_BINARY=${ATLAS_BINARY}
+
 COPY --from=0 /tmp/$ATLAS_FOLDER/distro/target/${ATLAS_BINARY}-bin.tar.gz /apps/${ATLAS_BINARY}-bin.tar.gz
 
 RUN cd /apps \
@@ -38,4 +40,17 @@ WORKDIR /apps/${ATLAS_BINARY}
 
 EXPOSE 21000
 
-CMD "/bin/bash", "-c", "/apps/apache-atlas-1.1.0/bin/atlas_start.py; tail -fF /apps/apache-atlas-1.1.0/logs/application.log"
+CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", \
+    "-Datlas.log.dir=/apps/${ATLAS_BINARY}/logs", \
+    "-Datlas.log.file=application.log", \
+    "-Datlas.home=/apps/${ATLAS_BINARY}", \
+    "-Datlas.conf=/apps/${ATLAS_BINARY}/conf", \
+    "-Xmx1024m", \
+    "-Dlog4j.configuration=atlas-log4j.xml", \
+    "-Djava.net.preferIPv4Stack=true", \
+    "-server", \
+    "-classpath", \
+    "/apps/${ATLAS_BINARY}/conf:/apps/${ATLAS_BINARY}/server/webapp/atlas/WEB-INF/classes:/apps/${ATLAS_BINARY}/server/webapp/atlas/WEB-INF/lib/*:/apps/${ATLAS_BINARY}/libext/*:/apps/${ATLAS_BINARY}/hbase/conf", \
+    "org.apache.atlas.Atlas", \
+    "-app", \
+    "/apps/${ATLAS_BINARY}/server/webapp/atlas"]
